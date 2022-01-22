@@ -1,0 +1,135 @@
+\section{主成分分析}
+    \begin{enumerate}
+        \item
+        {\kaishu \textcolor{blue}{解：}}\\
+        矩阵$\pmb{\Sigma}$的特征值为$\lambda_1=5,\lambda_2=3,\lambda_3=1$，对应的正交单位化特征向量为
+        \[\pmb{e}_1=(1,0,0)^{\mathrm{T}},\pmb{e}_2=\left(0,\frac{\sqrt{2}}{2},\frac{\sqrt{2}}{2}\right)^{\mathrm{T}},\pmb{e}_3=\left(0,\frac{\sqrt{2}}{2},-\frac{\sqrt{2}}{2}\right)^{\mathrm{T}},\]
+        则
+        \[\begin{cases}
+            Y_1=\pmb{e}_1^{\mathrm{T}}\pmb{X}=X_1,\\
+            \displaystyle Y_2=\pmb{e}_2^{\mathrm{T}}\pmb{X}=\frac{\sqrt{2}}{2}X_2+\frac{\sqrt{2}}{2}X_3,\\
+            \displaystyle Y_3=\pmb{e}_3^{\mathrm{T}}\pmb{X}=\frac{\sqrt{2}}{2}X_2-\frac{\sqrt{2}}{2}X_3.
+            \end{cases}\]
+        各主成分的方差为\[\mathrm{Var}(Y_1)=\lambda_1=5,\mathrm{Var}(Y_2)=\lambda_2=3,\mathrm{Var}(Y_3)=\lambda_3=1,\]
+        各主成分的累计贡献率为
+        \begin{align*}
+            \psi(Y_1) & =\frac{\lambda_1}{\lambda_1+\lambda_2+\lambda_3}=\frac{5}{9}=55.56\%<85\%,\\
+            \psi(Y_2) & =\frac{\lambda_1+\lambda_2}{\lambda_1+\lambda_2+\lambda_3}=\frac{8}{9}=88.89\%>85\%,\\
+            \psi(Y_3) & =\frac{\lambda_1+\lambda_2+\lambda_3}{\lambda_1+\lambda_2+\lambda_3}=\frac{9}{9}=100.0\%>85\%.
+        \end{align*}
+        因为各主成分互不相关，所以各主成分间的相关系数均为0，即
+        \[\rho_{(Y_i,Y_j)}=0,\quad i \neq j, \quad i,j=1,2,3.\]
+        综上，
+        \begin{enumerate}[label=(\arabic*)]
+            \item $\pmb{X}$累计贡献率$\geq 85\%$的主成分为$Y_1,Y_2$；
+            \item $\mathrm{Var}(Y_1)=5,\mathrm{Var}(Y_2)=3,\mathrm{Var}(Y_3)=1$；
+            \item $\rho_{(Y_i,Y_j)}=0,\quad i \neq j, \quad i,j=1,2,3$。
+        \end{enumerate}
+        \item
+        {\kaishu\textcolor{blue}{证：}}\\
+        令$P=[p_1,p_2,p_3]$，\begin{align*}
+            & P^TX\text{是}X\text{的主成分} \iff p_i\text{是}X\text{的协方差矩阵}\Sigma\text{的特征向量}\iff \Sigma p_i=\lambda_i p_i \iff \\
+            & (\Sigma+\sigma^2 I)p_i=(\lambda_i+\sigma^2)p_i \iff p_i+\sigma^2\text{是}Y\text{的协方差矩阵}\Sigma+\sigma^2I\text{的特征向量} \iff P^TY\text{是}Y\text{的主成分}.
+        \end{align*}
+        \item
+        {\kaishu\textcolor{blue}{证：}}\\
+        协方差矩阵$\Sigma$的特征值为
+        \[\begin{cases}
+            \lambda_1=\sigma^2+\sigma_{12}-\sigma_{13}-\sigma_{14}\\
+            \lambda_2=\sigma^2-\sigma_{12}+\sigma_{13}-\sigma_{14}\\
+            \lambda_3=\sigma^2-\sigma_{12}-\sigma_{13}+\sigma_{14}\\
+            \lambda_4=\sigma^2+\sigma_{12}+\sigma_{13}+\sigma_{14}
+            \end{cases}\]
+        且形式$P^TX$中的$P=[p_1,p_2,p_3,p_4]$如下
+        \[\begin{array}{cccc}\left(
+            \begin{matrix}
+            1/2 & 1/2 & 1/2 & 1/2\\
+            1/2 & 1/2 & -1/2 & -1/2\\
+            1/2 & -1/2 & 1/2 & -1/2\\
+            1/2 & -1/2 & -1/2 & 1/2
+            \end{matrix}
+            \right)\end{array}\]
+        很容易验证：$\Sigma p_i=\lambda_i p_i$，则证明完毕。
+        \item
+        \code
+\begin{lstlisting}
+x <- read.table("ex5_4-data.txt", header=TRUE)
+std1.x <- scale(x)
+rownames(std1.x) <- seq(1,42)
+std.x <- as.data.frame(std1.x)
+# 样本相关阵出发
+prin1 <- princomp(std.x, cor=TRUE)
+summary(prin1)
+loadings(prin1)
+# 样本协方差阵出发
+prin2 <- princomp(std.x, cor=FALSE)
+summary(prin2)
+loadings(prin2)
+\end{lstlisting}
+        \out
+\begin{lstlisting}
+# 样本相关阵出发
+> summary(prin1)
+Importance of components:
+                          Comp.1    Comp.2    Comp.3    Comp.4    Comp.5    Comp.6
+Standard deviation     1.5270812 1.1627564 1.0870278 0.8587576 0.8340510 0.7390645
+Proportion of Variance 0.3331395 0.1931432 0.1688042 0.1053521 0.0993773 0.0780309
+Cumulative Proportion  0.3331395 0.5262828 0.6950870 0.8004391 0.8998164 0.9778473
+                           Comp.7
+Standard deviation     0.39378827
+Proportion of Variance 0.02215274
+Cumulative Proportion  1.00000000
+> loadings(prin1)
+
+Loadings:
+   Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7
+X1  0.253  0.203  0.672         0.520  0.327  0.240
+X2 -0.221 -0.529  0.190 -0.755  0.245              
+X3 -0.546        -0.107  0.253  0.483  0.224 -0.585
+X4 -0.377  0.481 -0.351 -0.332         0.416  0.468
+X5 -0.488  0.193  0.226  0.178  0.134 -0.717  0.331
+X6 -0.330 -0.587         0.433 -0.227  0.354  0.416
+X7 -0.314  0.258  0.564 -0.163 -0.605  0.163 -0.313
+
+               Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7
+SS loadings     1.000  1.000  1.000  1.000  1.000  1.000  1.000
+Proportion Var  0.143  0.143  0.143  0.143  0.143  0.143  0.143
+Cumulative Var  0.143  0.286  0.429  0.571  0.714  0.857  1.000
+
+# 样本协方差阵出发
+> summary(prin2)
+Importance of components:
+                          Comp.1    Comp.2    Comp.3    Comp.4    Comp.5    Comp.6
+Standard deviation     1.5087921 1.1488307 1.0740090 0.8484728 0.8240620 0.7302131
+Proportion of Variance 0.3331395 0.1931432 0.1688042 0.1053521 0.0993773 0.0780309
+Cumulative Proportion  0.3331395 0.5262828 0.6950870 0.8004391 0.8998164 0.9778473
+                           Comp.7
+Standard deviation     0.38907207
+Proportion of Variance 0.02215274
+Cumulative Proportion  1.00000000
+> loadings(prin2)
+
+Loadings:
+   Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7
+X1  0.253  0.203  0.672         0.520  0.327  0.240
+X2 -0.221 -0.529  0.190 -0.755  0.245              
+X3 -0.546        -0.107  0.253  0.483  0.224 -0.585
+X4 -0.377  0.481 -0.351 -0.332         0.416  0.468
+X5 -0.488  0.193  0.226  0.178  0.134 -0.717  0.331
+X6 -0.330 -0.587         0.433 -0.227  0.354  0.416
+X7 -0.314  0.258  0.564 -0.163 -0.605  0.163 -0.313
+
+               Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7
+SS loadings     1.000  1.000  1.000  1.000  1.000  1.000  1.000
+Proportion Var  0.143  0.143  0.143  0.143  0.143  0.143  0.143
+Cumulative Var  0.143  0.286  0.429  0.571  0.714  0.857  1.000
+\end{lstlisting}
+        \summary\\
+        根据输出，可以得到
+        \begin{enumerate}[label=(\arabic*)]
+            \item 样本相关阵与样本协方差阵所得结果的特征根有细微差别，但对于方差的贡献率、累计贡献率、主成分的系数等基本完全一致，差别不大。
+            \item 不能，前三个主成分的累计贡献率低于70\%，偏低。
+            \item 选择前6个主成分，累计贡献率可达90\%。
+        \end{enumerate}
+    \end{enumerate}
+\clearpage

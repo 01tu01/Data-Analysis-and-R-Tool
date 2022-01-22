@@ -1,0 +1,247 @@
+\section{因子分析}
+    \begin{enumerate}
+        \item
+        {\kaishu \textcolor{blue}{解：}}
+        \begin{enumerate}[label=(\arabic*)]
+            \item 先计算$\Sigma$的特征值，为$\displaystyle\lambda_1=\frac{4}{3},\lambda_2=1,\lambda_3=\frac{2}{3}$，对应的单位化后的特征向量为
+            \[\begin{cases}
+                \displaystyle e_1=\left(0,\frac{\sqrt{2}}{2},\frac{\sqrt{2}}{2}\right)^T\\
+                e_2=(1,0,0)^T\\
+                \displaystyle e_3=\left(0,-\frac{\sqrt{2}}{2},\frac{\sqrt{2}}{2}\right)^T
+                \end{cases}\]
+            则\[\Sigma=\hat{A}\hat{A}^{\mathrm{T}}=\begin{array}{ccc}\left(
+                \begin{matrix}
+                1 & 0 & 0\\
+                0 & 1 & 1/3\\
+                0 & 1/3 & 1
+                \end{matrix}
+                \right)\end{array}=\begin{array}{ccc}\left(
+                \begin{matrix}
+                0 & 1 & 0\\
+                \frac{\sqrt{6}}{3} & 0 & -\frac{\sqrt{3}}{3}\\
+                \frac{\sqrt{6}}{3} & 0 & \frac{\sqrt{3}}{3}
+                \end{matrix}
+                \right)\end{array}\begin{array}{ccc}\left(
+                \begin{matrix}
+                0 & \frac{\sqrt{6}}{3} & \frac{\sqrt{6}}{3}\\
+                1 & 0 & 0\\
+                0 & -\frac{\sqrt{3}}{3} & \frac{\sqrt{3}}{3}
+                \end{matrix}
+                \right)\end{array},\]
+            累计贡献率为
+            \begin{align*}
+                \frac{\lambda_1}{\sum\limits_{i=1}^3 \lambda_i} & =\frac{4/3}{3}=\frac{4}{9}<75\%,\\
+                \frac{\lambda_1+\lambda_2}{\sum\limits_{i=1}^3 \lambda_i} & =\frac{4/3+1}{3}=\frac{7}{9}>75\%,\\
+                \frac{\lambda_1+\lambda_2+\lambda_3}{\sum\limits_{i=1}^3 \lambda_i} & =1>75\%.
+            \end{align*}
+            累计贡献率大于$75\%$的公因子为$f_1,f_2$，
+            则因子模型为
+            \[\left\{\begin{array}{cccc}
+                X_1=& &f_2 & + \varepsilon_1\\
+                X_2=&\frac{\sqrt{6}}{3}f_1 & & + \varepsilon_2\\
+                X_3=&\frac{\sqrt{6}}{3}f_1 & & + \varepsilon_3
+                \end{array}\right.\]
+            \item $f_1,f_2,f_3$的方差贡献分别为$\displaystyle\lambda_1=\frac{4}{3},\lambda_2=1,\lambda_3=\frac{2}{3}$。
+            \item 由于$\mathrm{Cov}(X_i,f_j)=a_{ij}$，所以
+            \[\begin{array}{ccc}
+                \mathrm{Cov}(X_1,f_1)=0, & \mathrm{Cov}(X_1,f_2)=1, & \mathrm{Cov}(X_1,f_3)=0,\\
+                \mathrm{Cov}(X_2,f_1)=\frac{\sqrt{6}}{3}, & \mathrm{Cov}(X_2,f_2)=0, & \mathrm{Cov}(X_2,f_3)=-\frac{\sqrt{3}}{3},\\
+                \mathrm{Cov}(X_3,f_1)=\frac{\sqrt{6}}{3}, & \mathrm{Cov}(X_3,f_2)=0, & \mathrm{Cov}(X_3,f_3)=\frac{\sqrt{3}}{3}.
+                \end{array}\]
+        \end{enumerate}
+        \item
+        \code
+\begin{lstlisting}
+x <- read.table("ex6_2-data.txt", header=TRUE)
+fact <- factanal(x, 3, scores="Bartlett", rotation="varimax"); fact
+fact$scores
+colMeans(x)
+\end{lstlisting}
+        \out
+\begin{lstlisting}
+> fact
+Call:
+factanal(x = x, factors = 3, scores = "Bartlett", rotation = "varimax")
+
+Uniquenesses:
+   X1    X2    X3    X4    X5    X6    X7 
+0.030 0.005 0.188 0.005 0.005 0.005 0.241 
+
+Loadings:
+   Factor1 Factor2 Factor3
+X1  0.116   0.950   0.232 
+X2          0.379   0.921 
+X3 -0.788   0.280   0.335 
+X4          0.817   0.573 
+X5  0.982   0.171         
+X6  0.975   0.141   0.163 
+X7  0.530  -0.482  -0.496 
+
+               Factor1 Factor2 Factor3
+SS loadings      2.834   2.073   1.617
+Proportion Var   0.405   0.296   0.231
+Cumulative Var   0.405   0.701   0.932
+
+Test of the hypothesis that 3 factors are sufficient.
+The chi square statistic is 57.11 on 3 degrees of freedom.
+The p-value is 2.44e-12
+
+> fact$scores
+         Factor1     Factor2     Factor3
+ [1,]  1.6529734 -1.65211154  0.09649973
+ [2,]  0.5937706  0.49870759 -0.15396797
+ [3,] -1.0507634 -0.33507998  0.82724465
+ [4,] -1.3602507  0.59342604  1.01466103
+ [5,] -0.4106409  0.52779334  0.81728819
+ [6,]  0.1351855 -0.85757911 -0.02025507
+ [7,]  0.9057612 -1.43130352 -1.35275397
+ [8,] -0.7273935  0.47787621  0.82636880
+ [9,]  2.1907486  0.54815313  1.76154678
+[10,]  1.0709157  1.91452350 -2.38819512
+[11,]  0.6707224  0.86157369 -1.19951381
+[12,] -0.8950983 -0.02771697  0.38397967
+[13,] -0.6271528 -1.02904389 -0.33345128
+[14,] -0.1280872 -0.39128734 -1.37282935
+[15,] -0.7317347 -2.27447887 -0.44110066
+[16,]  0.0582647 -0.64983615  0.71251106
+[17,]  0.8989055  0.64761904  1.67682588
+[18,] -0.5093322  0.48905989 -0.11862349
+[19,]  0.5303530 -1.17243219  0.27036622
+[20,] -0.2864957  0.31907958 -1.22262548
+[21,]  1.7792655  0.63655739  0.76786294
+[22,] -0.9984357  1.18081053 -0.16626248
+[23,] -1.0715159 -0.67719910  0.25958371
+[24,] -0.5497015  0.71240982 -1.01847110
+[25,] -1.1402634  1.09047892  0.37331109
+
+> colMeans(x)
+    X1     X2     X3     X4     X5     X6     X7 
+7.1000 4.7732 2.3488 9.1524 5.4584 7.1672 2.3460
+\end{lstlisting}
+        \summary\\
+        可以得出因子模型为\[\begin{cases}
+            x_1 - 7.100 = 0.116f_1 + 0.950f_2 + 0.232f_3 + \varepsilon_1\\
+            x_2 - 4.7732 = 0f_1 + 0.379f_2 + 0.921f_3 + \varepsilon_2\\
+            x_3 - 2.3488 = -0.788f_1 + 0.280f_2 + 0.335f_3 + \varepsilon_3\\
+            x_4 - 9.1524 = 0f_1 + 0.817f_2 + 0.573f_3 + \varepsilon_4\\
+            x_5 - 5.4584 = 0.982f_1 + 0.171f_2 + 0f_3 + \varepsilon_5\\
+            x_6 - 7.1672 = 0.975f_1 + 0.141f_2 + 0.163f_3 + \varepsilon_6\\
+            x_7 - 2.3460 = 0.530f_1 - 0.482f_2 - 0.496f_3 + \varepsilon_7
+            \end{cases}\]
+        $f_1$在$x_5,x_6$上的载荷很大，可以将$x_5,x_6$合为一个指标；$f_2$在$x_1,x_4$上载荷较大，可以将$x_1,x_4$合为一个指标；$f_3$在$x_2$上载荷很大；这样就可以将7个指标降成3个因子，方便后续操作处理。
+        \item
+        \code
+\begin{lstlisting}
+x <- read.table("ex6_3-data.txt", header=TRUE, row.names = 1)
+std.x <- as.data.frame(scale(x))
+prin1 <- princomp(std.x, cor = T)
+screeplot(prin1, type="lines")
+# 通过碎石图判断需要2个因子
+fact <- factanal(x, 2, scores="Bartlett", rotation="varimax")
+fact
+fact$scores
+colMeans(x)
+\end{lstlisting}
+        \out
+\begin{lstlisting}
+> fact
+
+Call:
+factanal(x = x, factors = 2, scores = "Bartlett", rotation = "varimax")
+
+Uniquenesses:
+   X1    X2    X3    X4    X5    X6 
+0.005 0.014 0.068 0.005 0.032 0.008 
+
+Loadings:
+   Factor1 Factor2
+X1 0.789   0.610  
+X2 0.853   0.508  
+X3 0.455   0.852  
+X4 0.638   0.768  
+X5 0.839   0.514  
+X6 0.553   0.828  
+
+               Factor1 Factor2
+SS loadings      2.975   2.895
+Proportion Var   0.496   0.482
+Cumulative Var   0.496   0.978
+
+Test of the hypothesis that 2 factors are sufficient.
+The chi square statistic is 9.64 on 4 degrees of freedom.
+The p-value is 0.047 
+> fact$scores
+              Factor1     Factor2
+shanghai   1.61488810  3.28060030
+nanjing    0.04603819  0.25383057
+suzhou     2.71139789 -2.01206700
+wuxi       0.78530751 -0.64125138
+changzhou -0.33545512 -0.21289765
+zhenjiang -0.68960491 -0.13452035
+nantong   -0.34352013 -0.11683543
+yangzhou  -0.80581667  0.04008038
+tai4zhou  -0.76307362 -0.08571657
+hangzhou   0.62763381 -0.11163156
+ningbo     0.24935155  0.02978948
+jiaxing   -0.29215815 -0.24665626
+huzhou    -0.87148041  0.03201790
+shaoxing  -0.26852669 -0.12364901
+zhoushan  -1.13400413  0.02154910
+tai1zhou  -0.53097720  0.02735747
+> colMeans(x)
+         X1          X2          X3          X4          X5          X6 
+ 1487.42125   685.85438 10874.18750   449.13000    58.87375    62.83937 
+\end{lstlisting}
+        \summary\\
+        可以得出因子模型为
+        \[\begin{cases}
+            x_1 - 1487.42125 = 0.789f_1 + 0.610f_2 + \varepsilon_1\\
+            x_2 - 685.85438 = 0.853f_1 + 0.508f_2 + \varepsilon_2\\
+            x_3 - 10874.18750 = 0.455f_1 + 0.852f_2 + \varepsilon_3\\
+            x_4 - 449.13000 = 0.638f_1 + 0.768f_2 + \varepsilon_4\\
+            x_5 - 58.87375 = 0.839f_1 + 0.514f_2 + \varepsilon_5\\
+            x_6 - 62.83937 = 0.553f_1 + 0.828f_2 + \varepsilon_6
+            \end{cases}\]
+        $f_1$在$x_2,x_5$上的载荷较大，可以将固定资产投资与外贸出口额合成一个指标；$f_2$在$x_3,x_6$上的载荷较大，可以将货运总量与互联网上网人数合成一个指标；这样就可以将6个指标降成2个因子，方便后续操作处理。
+        \item
+        \code
+\begin{lstlisting}
+ex6_4 <- function(x, m) {
+    p <- nrow(x)
+    x.diag <- diag(x)
+    sum.rank <- sum(x.diag)
+    # 设置行名、列名
+    rowname <- paste("X", 1:p, sep = "")
+    colname <- paste("Factor", 1:m, sep = "")
+    # 构造因子载荷矩阵A，初值设为0
+    A <- matrix(0, nrow = p, ncol = m, dimnames = list(rowname, colname))
+    # eig包含两个元素,values为特征根，vectors为特征向量
+    eig <- eigen(x)
+    for (i in 1:m) {
+          # 填充矩阵A的值
+          A[, i] <- sqrt(eig$values[i]) * eig$vectors[, i]
+      }
+    # 公共因子的方差
+    var.A <- diag(A %*% t(A))
+    rowname1 <- c("SS loadings", "Proportion Var", "Cumulative Var")
+    # 构造输出结果的矩阵，初值设为0
+    result <- matrix(0, nrow = 3, ncol = m, dimnames = list(rowname1, colname))
+    for (i in 1:m) {
+        # 计算各因子的方差
+        result[1, i] <- sum(A[, i]^2)
+        # 计算方差贡献率
+        result[2, i] <- result[1, i] / sum.rank
+        # 累计方差贡献率
+        result[3, i] <- sum(result[1, 1:i]) / sum.rank
+    }
+    method <- c("Principal Component Method")
+    # 输出计算结果
+    list(method = method, loadings = A, var = cbind(common = var.A, specific = x.diag - var.A), result = result)
+}
+\end{lstlisting}
+        \out\\
+        略。\\
+        \summary\\
+        略。
+    \end{enumerate}
+\clearpage

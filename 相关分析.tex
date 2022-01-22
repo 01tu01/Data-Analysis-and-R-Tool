@@ -1,0 +1,333 @@
+\section{相关分析}
+\begin{enumerate}
+    \item
+    \code
+\begin{lstlisting}
+data <- read.table("ex9_1-data.txt", header=T, row.names = 1);
+cor(data)
+cor.test(~X1+X2, data=data)
+cor.test(~X1+X3, data=data)
+cor.test(~X1+X4, data=data)
+cor.test(~X1+X5, data=data)
+cor.test(~X2+X3, data=data)
+cor.test(~X2+X4, data=data)
+cor.test(~X2+X5, data=data)
+cor.test(~X3+X4, data=data)
+cor.test(~X3+X5, data=data)
+cor.test(~X4+X5, data=data)
+\end{lstlisting}
+    \out
+\begin{lstlisting}
+> cor(data)
+          X1          X2        X3        X4          X5
+X1 1.0000000  0.33837901 0.5169851 0.8991527  0.72340083
+X2 0.3383790  1.00000000 0.2772404 0.2701376 -0.05311005
+X3 0.5169851  0.27724044 1.0000000 0.4255092  0.39922122
+X4 0.8991527  0.27013758 0.4255092 1.0000000  0.76877136
+X5 0.7234008 -0.05311005 0.3992212 0.7687714  1.00000000
+> cor.test(~X1+X2, data=data)
+
+	Pearson's product-moment correlation
+
+data:  X1 and X2
+t = 1.9365, df = 29, p-value = 0.06261
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.01813559  0.61855376
+sample estimates:
+     cor 
+0.338379 
+
+> cor.test(~X1+X3, data=data)
+
+	Pearson's product-moment correlation
+
+data:  X1 and X3
+t = 3.2524, df = 29, p-value = 0.002901
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.1991218 0.7364213
+sample estimates:
+      cor 
+0.5169851 
+
+> cor.test(~X1+X4, data=data)
+
+	Pearson's product-moment correlation
+
+data:  X1 and X4
+t = 11.064, df = 29, p-value = 6.341e-12
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.7995557 0.9506198
+sample estimates:
+      cor 
+0.8991527 
+
+> cor.test(~X1+X5, data=data)
+
+	Pearson's product-moment correlation
+
+data:  X1 and X5
+t = 5.6423, df = 29, p-value = 4.266e-06
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.4962694 0.8578487
+sample estimates:
+      cor 
+0.7234008 
+
+> cor.test(~X2+X3, data=data)
+
+	Pearson's product-moment correlation
+
+data:  X2 and X3
+t = 1.5539, df = 29, p-value = 0.1311
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.08549887  0.57508563
+sample estimates:
+      cor 
+0.2772404 
+
+> cor.test(~X2+X4, data=data)
+
+	Pearson's product-moment correlation
+
+data:  X2 and X4
+t = 1.5109, df = 29, p-value = 0.1416
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.09311562  0.56992422
+sample estimates:
+      cor 
+0.2701376 
+
+> cor.test(~X2+X5, data=data)
+
+	Pearson's product-moment correlation
+
+data:  X2 and X5
+t = -0.28641, df = 29, p-value = 0.7766
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.3999240  0.3070076
+sample estimates:
+        cor 
+-0.05311005 
+
+> cor.test(~X3+X4, data=data)
+
+	Pearson's product-moment correlation
+
+data:  X3 and X4
+t = 2.5321, df = 29, p-value = 0.01701
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.08380479 0.67767319
+sample estimates:
+      cor 
+0.4255092 
+
+> cor.test(~X3+X5, data=data)
+
+	Pearson's product-moment correlation
+
+data:  X3 and X5
+t = 2.3448, df = 29, p-value = 0.02609
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.05227608 0.66017318
+sample estimates:
+      cor 
+0.3992212 
+
+> cor.test(~X4+X5, data=data)
+
+	Pearson's product-moment correlation
+
+data:  X4 and X5
+t = 6.4735, df = 29, p-value = 4.383e-07
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.5695918 0.8826672
+sample estimates:
+      cor 
+0.7687714 
+\end{lstlisting}
+    \summary
+    \begin{enumerate}[label=(\arabic*)]
+        \item 各指标间的相关系数为
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{|c|c|c|c|c|c|}
+                \hline
+                & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ \hline
+                $X_1$ & 1 & 0.33837901 & 0.5169851 & 0.8991527 & 0.72340083 \\ \hline
+                $X_2$ & 0.3383790 & 1 & 0.2772404 & 0.2701376 & $-0.05311005$ \\ \hline
+                $X_3$ & 0.5169851 & 0.27724044 & 1 & 0.4255092 & 0.39922122 \\ \hline
+                $X_4$ & 0.8991527 & 0.27013758 & 0.4255092 & 1 & 0.76877136 \\ \hline
+                $X_5$ & 0.7234008 & $-0.05311005$ & 0.3992212 & 0.7687714 & 1 \\ \hline
+            \end{tabular}
+        \end{table}
+        \item $X_1,X_2$显著性检验的$p$值为$0.06261 > 0.05$，则接受原假设，认为$X_1,X_2$不具有显著的线性相关性；
+        \item $X_1,X_3$显著性检验的$p$值为$0.002901 < 0.05$，则拒绝原假设，认为$X_1,X_3$具有显著的线性相关性；
+        \item $X_1,X_4$显著性检验的$p$值为$6.341\times 10^{-12} < 0.05$，则拒绝原假设，认为$X_1,X_4$具有显著的线性相关性；
+        \item $X_1,X_5$显著性检验的$p$值为$4.266\times 10^{-6} < 0.05$，则拒绝原假设，认为$X_1,X_5$具有显著的线性相关性；
+        \item $X_2,X_3$显著性检验的$p$值为$0.1311 > 0.05$，则接受原假设，认为$X_2,X_3$不具有显著的线性相关性；
+        \item $X_2,X_4$显著性检验的$p$值为$0.1416 > 0.05$，则接受原假设，认为$X_2,X_4$不具有显著的线性相关性；
+        \item $X_2,X_5$显著性检验的$p$值为$0.7766 > 0.05$，则接受原假设，认为$X_2,X_5$不具有显著的线性相关性；
+        \item $X_3,X_4$显著性检验的$p$值为$0.01701 < 0.05$，则拒绝原假设，认为$X_3,X_4$具有显著的线性相关性；
+        \item $X_3,X_5$显著性检验的$p$值为$0.02609 < 0.05$，则拒绝原假设，认为$X_3,X_5$具有显著的线性相关性；
+        \item $X_4,X_5$显著性检验的$p$值为$4.383\times 10^{-7} < 0.05$，则拒绝原假设，认为$X_4,X_5$具有显著的线性相关性。
+    \end{enumerate}
+    \item
+    \code
+\begin{lstlisting}
+# 消除X1影响，X2和X3的偏相关系数
+x <- read.table("ex9_1-data.txt",head=TRUE);
+x <- x[,2:6]
+cor(x)
+t.df <- nrow(x) - ncol(x)
+ndata <- nrow(x)
+nvar <- ncol(x)
+r23 = (cor(x)[2, 3] - cor(x)[2, 1] * cor(x)[3, 1]) / (sqrt(1 - cor(x)[2, 1] ^ 2) * sqrt(1 - cor(x)[3, 1] ^ 2))
+t <- r23 * sqrt(ndata - nvar) / sqrt(1 - r23 ^ 2)
+p1 <- pt(t, t.df)
+p2 <- p1 - 0.5
+if (any(p2 <= 0)) p <- 2 * p1 else p <- 2 * (1 - p1)
+data.frame(parial.coefs23 = r23, t = t, df = t.df, p_value = p)
+# 消除X1影响，X4和X5的偏相关系数
+r45 = (cor(x)[4, 5] - cor(x)[4, 1] * cor(x)[5, 1]) / (sqrt(1 - cor(x)[4, 1] ^ 2) * sqrt(1 - cor(x)[5, 1] ^ 2))
+t <- r45 * sqrt(ndata - nvar) / sqrt(1 - r45 ^ 2)
+p1 <- pt(t, t.df)
+p2 <- p1 - 0.5
+if (any(p2 <= 0)) p <- 2 * p1 else p <- 2 * (1 - p1)
+data.frame(parial.coefs45 = r45, t = t, df = t.df, p_value = p)
+\end{lstlisting}
+    \out
+\begin{lstlisting}
+> data.frame(parial.coefs23 = r23, t = t, df = t.df, p_value = p)
+  parial.coefs23         t df   p_value
+1      0.1270064 0.6528951 26 0.5195558
+
+> data.frame(parial.coefs45 = r45, t = t, df = t.df, p_value = p)
+  parial.coefs45        t df    p_value
+1      0.3915981 2.170076 26 0.03932272
+\end{lstlisting}
+    \summary\\
+    消除$X_1$影响时，$X_2,X_3$的偏相关系数为0.1270064；\\
+    消除$X_1$影响时，$X_4,X_5$的偏相关系数为0.3915981。
+    \item
+    \code
+\begin{lstlisting}
+x <- read.table("ex9_3-data.txt",head=TRUE,row.names=1);
+x <- scale(x);
+ca <- cancor(x[,1:2], x[,3:4]); ca
+\end{lstlisting}
+    \out
+\begin{lstlisting}
+> ca
+$cor
+[1] 0.7885079 0.0537397
+
+$xcoef
+        [,1]       [,2]
+X1 0.1127152 -0.2789099
+X2 0.1064583  0.2813576
+
+$ycoef
+        [,1]       [,2]
+X3 0.1029701 -0.3610078
+X4 0.1098775  0.3589657
+
+$xcenter
+           X1            X2 
+ 1.243450e-16 -6.049328e-16 
+
+$ycenter
+           X3            X4 
+-3.380629e-16 -1.359746e-15 
+\end{lstlisting}
+    \summary\\
+    两对典型变量为
+    \[\begin{cases}
+        \hat{U}_1 = 0.1127152X_1 + 0.1064583X_2,\\
+        \hat{V}_1 = 0.1029701X_3 + 0.1098775X_4.
+    \end{cases},\begin{cases}
+        \hat{U}_2 = -0.2789099X_1 + 0.3589657X_2,\\
+        \hat{V}_2 = -0.3610078X_3 + 0.3589657X_4.
+    \end{cases}\]
+    \item
+    \code
+\begin{lstlisting}
+# 偏相关系数
+ex9_4_partial_cor <- function(without, with, data) {
+  cols <- sprintf("X%d", c(without, with));
+  x <- cbind(data[,without], data[,with]);
+  colnames(x) <- cols;
+  rho <- cor(x);
+  Mab <- det(rho[-1 * with[1], -1 * with[2]]);
+  Maa <- det(rho[-1 * with[1], -1 * with[1]]);
+  Mbb <- det(rho[-1 * with[2], -1 * with[2]]);
+  r <- Mab / (sqrt(Maa) * sqrt(Mbb));
+  return(r);
+}
+# 复相关系数
+ex9_4_multiple_cor <- function(without, with, data) {
+  cols <- sprintf("X%d", c(without, with));
+  x <- cbind(data[, without], data[, with]);
+  colnames(x) <- cols;
+  rho <- cor(x);
+  Maa <- det(rho[-1 * with[1], -1 * with[1]]);
+  r <- sqrt(1 - det(rho) / Maa);
+  return(r);
+}
+\end{lstlisting}
+利用题2的前半问数据进行输出
+\begin{lstlisting}
+data <- read.table("ex9_1-data.txt", header=T, row.names = 1);
+source("ex9_4_partial_cor.R");
+ex9_4_partial_cor(c(1), c(2,3), data);
+source("ex9_4_multiple_cor.R");
+ex9_4_multiple_cor(c(1), c(2,3), data);
+\end{lstlisting}
+    \out
+\begin{lstlisting}
+> ex9_4_partial_cor(c(1), c(2,3), data);
+[1] 0.1270064
+> ex9_4_multiple_cor(c(1), c(2,3), data);
+[1] 0.3588649
+\end{lstlisting}
+    \summary\\
+    利用题2的前半问数据进行输出，故消除$X_1$影响时，$X_2,X_3$的偏相关系数为0.1270064，$X_2,X_3$的复相关系数为0.3588649。
+    \item
+    \code
+\begin{lstlisting}
+ex9_5 <- function(r, n, p, q, alpha = 0.1) {
+  m <- length(r);
+  Q <- rep(0, m);
+  lambda <- 1
+  for (k in m:1) {
+    lambda <- lambda * (1 - r[k] ^ 2);
+    Q[k] <- -log(lambda)
+  }
+  s <- 0;
+  i <- m
+  for (k in 1:m) {
+    Q[k] <- (n - k + 1 - 1 / 2 * (p + q + 3) + s) * Q[k]
+    chi <- 1 - pchisq(Q[k], (p - k + 1) * (q - k + 1))
+    if (chi > alpha) {
+      i <- k - 1;
+      break
+    }
+    s <- s + 1 / r[k] ^ 2
+  }
+  i
+}
+\end{lstlisting}
+    \out\\
+    略。\\
+    \summary\\
+    略。
+\end{enumerate}
